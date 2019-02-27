@@ -6,7 +6,7 @@ public class Url {
     private static String baseUrlHourly="https://api.weatherbit.io/v2.0/forecast/hourly?lat=29&lon=60&key=24e7e853118e4b6594ffb9fbbfa16c31&hours=24";
     private static String baseUrlDayly="https://api.weatherbit.io/v2.0/forecast/daily?lat=29&lon=60&key=24e7e853118e4b6594ffb9fbbfa16c31";
     private static String imageUrl="https://www.weatherbit.io/static/img/icons/";
-    private static String urlRadar="https://earth.nullschool.net";
+    private static String urlRadar="https://www.ventusky.com/?p=9;55;2&l=temperature-2m ";
 
     public static String getUrlRadar() {
         return urlRadar;
