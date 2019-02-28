@@ -3,9 +3,9 @@ package model;
 public class DailyModel {
 
     private String date;
-    private Double temp;
-    private Double max_temp;
-    private Double min_temp;
+    private int temp;
+    private int max_temp;
+    private int min_temp;
     private String description;
     private int icon_code;
 
@@ -17,27 +17,27 @@ public class DailyModel {
         this.date = date;
     }
 
-    public Double getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(Double temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
     }
 
-    public Double getMax_temp() {
+    public int getMax_temp() {
         return max_temp;
     }
 
-    public void setMax_temp(Double max_temp) {
+    public void setMax_temp(int max_temp) {
         this.max_temp = max_temp;
     }
 
-    public Double getMin_temp() {
+    public int getMin_temp() {
         return min_temp;
     }
 
-    public void setMin_temp(Double min_temp) {
+    public void setMin_temp(int min_temp) {
         this.min_temp = min_temp;
     }
 

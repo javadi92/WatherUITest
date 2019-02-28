@@ -131,7 +131,8 @@ public class VolleyRequest {
                     for (int i = 0; i < jsonArrayHourly.length(); i++) {
                         String local_time_first = jsonArrayHourly.getJSONObject(i).getString("timestamp_local");
                         String local_time = local_time_first.substring(11, local_time_first.length() - 3);
-                        double temp = jsonArrayHourly.getJSONObject(i).getDouble("temp");
+                        String tem = Math.round(jsonArrayHourly.getJSONObject(i).getDouble("temp"))+"";
+                        int temp=Integer.parseInt(tem);
                         //String description = jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getString("description");
                         int code=jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getInt("code");
                         String dayOrNight=jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getString("icon");
@@ -174,9 +175,12 @@ public class VolleyRequest {
                     for (int i = 0; i < jsonArrayDaily.length(); i++) {
                         //String local_time_first = jsonArrayDaily.getJSONObject(i).getString("timestamp_local");
                         //String local_time = local_time_first.substring(11, local_time_first.length() - 3);
-                        double temp = jsonArrayDaily.getJSONObject(i).getDouble("temp");
-                        double max_temp = jsonArrayDaily.getJSONObject(i).getDouble("max_temp");
-                        double min_temp = jsonArrayDaily.getJSONObject(i).getDouble("min_temp");
+                        String tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("temp"))+"";
+                        String max_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("max_temp"))+"";
+                        String min_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("min_temp"))+"";
+                        int temp=Integer.parseInt(tem);
+                        int max_temp=Integer.parseInt(max_tem);
+                        int min_temp=Integer.parseInt(min_tem);
                         String dateTime=jsonArrayDaily.getJSONObject(i).getString("datetime");
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date date;

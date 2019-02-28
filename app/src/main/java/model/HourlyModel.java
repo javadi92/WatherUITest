@@ -2,7 +2,7 @@ package model;
 
 public class HourlyModel {
     private String local_time;
-    private Double temp;
+    private int temp;
     private String description;
     private int icon_code;
 
@@ -14,11 +14,11 @@ public class HourlyModel {
         this.local_time = local_time;
     }
 
-    public Double getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(Double temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
     }
 
