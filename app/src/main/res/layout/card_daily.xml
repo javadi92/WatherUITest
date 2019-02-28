@@ -86,31 +86,23 @@
         android:id="@+id/tv_max_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="21"
-        android:textSize="25dp"
         android:textColor="#ff0000"
+        android:textSize="25dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/img_weather_state_card_daily" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_min_temp"
+        app:layout_constraintStart_toStartOf="@+id/tv_min_temp" />
 
     <TextView
         android:id="@+id/tv_min_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="9"
-        android:textSize="25dp"
         android:textColor="#0202fd"
+        android:textSize="25dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_min_temp_lable"
-        app:layout_constraintEnd_toStartOf="@+id/tv_min_temp_lable"
-        app:layout_constraintStart_toEndOf="@+id/img_weather_state_card_daily" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_temp"
+        app:layout_constraintStart_toStartOf="@+id/tv_temp" />
 
     <TextView
         android:id="@+id/tv_temp"
