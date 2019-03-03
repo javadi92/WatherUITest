@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     //NonSwipeableViewPager nonSwipeableViewPager;
     ViewPagerAdapter viewPagerAdapter;
     ImageButton imgSearch;
+    AlertDialog dialog;
     boolean errorCheck=false;
 
     @Override
@@ -119,13 +120,15 @@ public class MainActivity extends AppCompatActivity {
         imgSearch=(ImageButton) findViewById(R.id.img_search);
     }
 
-    private void _fillViews(){
 
-    }
 
-    AlertDialog dialog;
+
 
     public void _cityChange(){
+
+        if(!mAutocompleteView2.getText().equals("")){
+            mAutocompleteView2.setText("");
+        }
 
         AlertDialog.Builder builder;
         builder=new AlertDialog.Builder(MainActivity.this);
@@ -152,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
     }
+
+
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener2
             = new AdapterView.OnItemClickListener() {
@@ -215,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"نام شهر نمیتواند خالی باشد",Toast.LENGTH_LONG).show();
                 }
                 dialog.dismiss();
+
                 //Toast.makeText(MainActivity.this,place2.getLatLng().latitude+"",Toast.LENGTH_LONG).show();
                 // Format details of the place for display and show it in a TextView.
                 final CharSequence thirdPartyAttribution = places2.getAttributions();
