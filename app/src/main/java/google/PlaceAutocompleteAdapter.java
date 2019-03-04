@@ -193,7 +193,7 @@ public class PlaceAutocompleteAdapter
         try {
             Tasks.await(results, 60, TimeUnit.SECONDS);
         } catch (ExecutionException | InterruptedException | TimeoutException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         try {
@@ -206,8 +206,8 @@ public class PlaceAutocompleteAdapter
             return DataBufferUtils.freezeAndClose(autocompletePredictions);
         } catch (RuntimeExecutionException e) {
             // If the query did not complete successfully return null
-            Toast.makeText(getContext(), "Error contacting API: " + e.toString(),
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Error contacting API: " + e.toString(),
+                    //Toast.LENGTH_SHORT).show();
             //Log.e(TAG, "Error getting autocomplete prediction API call", e);
             return null;
         }

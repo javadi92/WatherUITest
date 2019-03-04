@@ -33,6 +33,7 @@ import fragments.DailyFragment;
 import fragments.HourlyFragment;
 import fragments.RadarFragment;
 import google.PlaceAutocompleteAdapter;
+import utillities.CheckConnection;
 import utillities.Url;
 import utillities.VolleyRequest;
 
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mGeoDataClient2 = Places.getGeoDataClient(this, null);
         setContentView(R.layout.activity_main);
+
+        if(!new CheckConnection(MainActivity.this).isNetworkConnected(MainActivity.this)){
+            Toast.makeText(MainActivity.this,"لطفا اتصال اینترنت خود را بررسی کنید",Toast.LENGTH_LONG).show();
+        }
 
         _initViews();
 
