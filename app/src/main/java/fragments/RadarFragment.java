@@ -36,7 +36,7 @@ public class RadarFragment extends Fragment {
             webView.loadUrl(Url.getUrlRadar());
             webView.getSettings().setJavaScriptEnabled(true);
         }
-        
+
         return view;
     }
 

@@ -470,5 +470,122 @@ public class VolleyRequest {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private void darkSkyDescription(String icon){
+        String des=null;
+        switch (icon){
+            case ("clear-day"):
+                CurrentFragment.tvCondition.setText("صاف");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.clear_day);
+                break;
+            case ("clear-night"):
+                CurrentFragment.tvCondition.setText("صاف");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.clear_night);
+                break;
+            case ("rain"):
+                CurrentFragment.tvCondition.setText("بارانی");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.rain);
+                break;
+            case ("snow"):
+                CurrentFragment.tvCondition.setText("برفی");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.snow);
+                break;
+            case ("sleet"):
+                CurrentFragment.tvCondition.setText("باران و برف");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.snow_rain);
+                break;
+            case ("wind"):
+                CurrentFragment.tvCondition.setText("باد");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.smoke);
+                break;
+            case ("fog"):
+                CurrentFragment.tvCondition.setText("مه");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.fog);
+                break;
+            case ("cloudy"):
+                CurrentFragment.tvCondition.setText("ابری");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.cloud);
+                break;
+            case ("partly-cloudy-day"):
+                CurrentFragment.tvCondition.setText("صاف تا قسمتی ابری");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.scatter_cloud_day);
+                break;
+            case ("partly-cloudy-night"):
+                CurrentFragment.tvCondition.setText("صاف تا قسمتی ابری");
+                CurrentFragment.imgWeatherState.setImageResource(R.drawable.scatter_cloud_night);
+                break;
+        }
+    }
 
+    public void darkSkyJsonRequestCurrent(){
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, Url.getBaaseUrlCurrent_darkSky(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonObject=response.getJSONObject("currently");
+                    String icon=jsonObject.getString("icon");
+                    darkSkyDescription(icon);
+                    int uvIndex=jsonObject.getInt("uvIndex");
+                    double uv=uvIndex;
+                    if (uv == 0.0) {
+                        CurrentFragment.tvUV.setText("بی خطر");
+                    }
+                    if (uv > 0.0 && uv < 3.0) {
+                        CurrentFragment.tvUV.setText("کم");
+                    }
+                    if (uv >= 3.0 && uv < 6.0) {
+                        CurrentFragment.tvUV.setText("متوسط");
+                    }
+                    if (uv >= 6.0 && uv < 8.0) {
+                        CurrentFragment.tvUV.setText("زیاد");
+                    }
+                    if (uv >= 8.0 && uv < 11.0) {
+                        CurrentFragment.tvUV.setText("خیلی زیاد");
+                    }
+                    if (uv >= 11.0) {
+                        CurrentFragment.tvUV.setText(" بسیار شدید");
+                    }
+                    double temperature=jsonObject.getDouble("temperature");
+                    CurrentFragment.tvTemprature.setText(temperature+"");
+                    double visibility=jsonObject.getDouble("visibility")*1000;
+                    CurrentFragment.tvVisibility.setText(visibility+"");
+                    double windSpeed=jsonObject.getDouble("windSpeed");
+                    CurrentFragment.tvWindSpeed.setText(windSpeed+" km/h");
+                    double cloudCover=jsonObject.getDouble("cloudCover");
+                    CurrentFragment.tvCloudsPercent.setText(cloudCover*100+" %");
+                    double apparentTemperature=jsonObject.getDouble("apparentTemperature");
+                    CurrentFragment.tvApparanetTemprature.setText(apparentTemperature+"");
+                    double humidity=jsonObject.getDouble("humidity");
+                    CurrentFragment.tvprecipRate.setText(Math.round(humidity*100)+" %");
+                    long sunriseTime=response.getJSONObject("daily").getJSONArray("data").getJSONObject(0).getInt("sunriseTime");
+                    long sunsetTime=response.getJSONObject("daily").getJSONArray("data").getJSONObject(0).getInt("sunsetTime");
+                    Date date = new Date(Long.valueOf(sunriseTime*1000L));
+                    Date date2 = new Date(Long.valueOf(sunsetTime*1000L));
+                    SimpleDateFormat myDate = new SimpleDateFormat("HH:mm");
+                    myDate.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
+                    String formatted = myDate.format(date);
+                    String formatted2 = myDate.format(date2);
+                    CurrentFragment.tvSunrise.setText(formatted);
+                    CurrentFragment.tvSunset.setText(formatted2);
+
+                    progressDialog.dismiss();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("errordark",e.getMessage());
+                    progressDialog.dismiss();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+
+            }
+        });
+        Volley.newRequestQueue(mContext).add(jsonObjectRequest);
+        progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage("در حال دریافت اطلاعات ...");
+        progressDialog.show();
+    }
 }

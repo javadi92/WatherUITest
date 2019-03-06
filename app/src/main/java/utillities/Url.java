@@ -8,7 +8,16 @@ public class Url {
     private static String imageUrl_weatherBit ="https://www.weatherbit.io/static/img/icons/";
     private static String urlRadar="https://www.ventusky.com/?p=9;55;2&l=temperature-2m ";
 
-    private static String baaseUrlCurrent_darkSky="https://api.darksky.net/forecast/918bd678391742f5c06a4ed7215aca75/37.8267,-122.4233";
+    private static String baaseUrlCurrent_darkSky="https://api.darksky.net/forecast/918bd678391742f5c06a4ed7215aca75/37.8267,-122.4233?units=si";
+
+
+    public static String getBaaseUrlCurrent_darkSky() {
+        return baaseUrlCurrent_darkSky;
+    }
+
+    public static void setBaaseUrlCurrent_darkSky(String baaseUrlCurrent_darkSky) {
+        Url.baaseUrlCurrent_darkSky = baaseUrlCurrent_darkSky;
+    }
 
     public static String getUrlRadar() {
         return urlRadar;
