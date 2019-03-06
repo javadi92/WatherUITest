@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mGeoDataClient2 = Places.getGeoDataClient(this, null);
         setContentView(R.layout.activity_main);
 
-        if(!new CheckConnection(MainActivity.this).isNetworkConnected(MainActivity.this)){
-            Toast.makeText(MainActivity.this,"لطفا اتصال اینترنت خود را بررسی کنید",Toast.LENGTH_LONG).show();
-        }
+
 
         _initViews();
 
@@ -115,6 +113,25 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*if(!new CheckConnection(MainActivity.this).isNetworkConnected(MainActivity.this)){
+            AlertDialog dialog1;
+            AlertDialog.Builder builder1=new AlertDialog.Builder(MainActivity.this);
+            builder1.setMessage("خطا در برقراری ارتباط! لطفا اتصال اینترنت خود را بررسی کنید");
+            builder1.setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+
+            dialog1=builder1.create();
+            dialog1.show();
+        }*/
     }
 
     private void _initViews(){
@@ -212,14 +229,14 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitleTextColor(Color.WHITE);
                 //tvCityName.setText(place2.getName());
 
-                Url.setBaseUrlCurrent("https://api.weatherbit.io/v2.0/current?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31");
-                Url.setBaseUrlHourly("https://api.weatherbit.io/v2.0/forecast/hourly?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31&hours=24");
-                Url.setBaseUrlDayly("https://api.weatherbit.io/v2.0/forecast/daily?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31");
+                Url.setBaseUrlCurrent_weatherBit("https://api.weatherbit.io/v2.0/current?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31");
+                Url.setBaseUrlHourly_weatherBit("https://api.weatherbit.io/v2.0/forecast/hourly?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31&hours=24");
+                Url.setBaseUrlDaily_weatherBit("https://api.weatherbit.io/v2.0/forecast/daily?lat="+lat+"&lon="+lon+"&key=24e7e853118e4b6594ffb9fbbfa16c31");
                 //Url.setUrlRadar("https://www.windy.com/-Temperature-temp?temp,"+lat+","+lon);
                 if(mAutocompleteView2.getText().toString().length()>0){
-                    new VolleyRequest(MainActivity.this)._jsonRequestCurrent();
-                    new VolleyRequest(MainActivity.this)._jsonRequestHourly();
-                    new VolleyRequest(MainActivity.this)._jsonRequestDaily();
+                    new VolleyRequest(MainActivity.this).weatherbitJsonRequestCurrent();
+                    new VolleyRequest(MainActivity.this).weatherbitJsonRequestHourly();
+                    new VolleyRequest(MainActivity.this).weatherbitJsonRequestDaily();
                 }
                 else {
                     Toast.makeText(MainActivity.this,"نام شهر نمیتواند خالی باشد",Toast.LENGTH_LONG).show();

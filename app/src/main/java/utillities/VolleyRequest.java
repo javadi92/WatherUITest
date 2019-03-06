@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import adapters.DailyAdapter;
@@ -45,9 +44,9 @@ public class VolleyRequest {
 
     ProgressDialog progressDialog;
 
-    public void _jsonRequestCurrent() {
+    public void weatherbitJsonRequestCurrent() {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Url.getBaseUrlCurrent(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Url.getBaseUrlCurrent_weatherBit(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -75,7 +74,7 @@ public class VolleyRequest {
                     }
 
                     int code = response.getJSONArray("data").getJSONObject(0).getJSONObject("weather").getInt("code");
-                    CurrentFragment.tvCondition.setText(_description(code));
+                    CurrentFragment.tvCondition.setText(weatherbitDescription(code));
                     CurrentFragment.tvVisibility.setText(Math.round(response.getJSONArray("data").getJSONObject(0).getDouble("vis") * 1000) + " m");
                     CurrentFragment.tvWindSpeed.setText(Math.round(response.getJSONArray("data").getJSONObject(0).getDouble("wind_spd") * 3.6) + " km/h");
                     CurrentFragment.tvCloudsPercent.setText(Math.round(response.getJSONArray("data").getJSONObject(0).getDouble("clouds")) + " %");
@@ -83,9 +82,9 @@ public class VolleyRequest {
                     CurrentFragment.tvApparanetTemprature.setText(Math.round(response.getJSONArray("data").getJSONObject(0).getDouble("app_temp")) + "");
                     CurrentFragment.tvprecipRate.setText(response.getJSONArray("data").getJSONObject(0).getDouble("rh") + " %");
                     String icon_code = response.getJSONArray("data").getJSONObject(0).getJSONObject("weather").getString("icon");
-                    //Picasso.get().load(Url.getImageUrl() + icon_code + ".png").into(CurrentFragment.imgWeatherState);
+                    //Picasso.get().load(Url.getImageUrl_weatherBit() + icon_code + ".png").into(CurrentFragment.imgWeatherState);
                     String s=icon_code.substring(icon_code.length()-1);
-                    CurrentFragment.imgWeatherState.setImageResource(_icon(code,s));
+                    CurrentFragment.imgWeatherState.setImageResource(weatherbitIcon(code,s));
                     String timeZone = response.getJSONArray("data").getJSONObject(0).getString("timezone");
                     DateFormat utcFormat = new SimpleDateFormat("HH:mm");
                     utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -95,7 +94,7 @@ public class VolleyRequest {
                     pstFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
                     CurrentFragment.tvSunrise.setText(pstFormat.format(date_sunrise));
                     CurrentFragment.tvSunset.setText(pstFormat.format(date_sunset));
-                    //_jsonRequestHourly();
+                    //weatherbitJsonRequestHourly();
                     progressDialog.dismiss();
                 } catch (JSONException e) {
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -120,8 +119,8 @@ public class VolleyRequest {
         progressDialog.show();
     }
 
-    public void _jsonRequestHourly() {
-        JsonRequest jsonRequestHourly = new JsonObjectRequest(Request.Method.POST, Url.getBaseUrlHourly(), null, new Response.Listener<JSONObject>() {
+    public void weatherbitJsonRequestHourly() {
+        JsonRequest jsonRequestHourly = new JsonObjectRequest(Request.Method.POST, Url.getBaseUrlHourly_weatherBit(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -137,8 +136,8 @@ public class VolleyRequest {
                         int code=jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getInt("code");
                         String dayOrNight=jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getString("icon");
                         String s=dayOrNight.substring(dayOrNight.length()-1);
-                        String description=_description(code);
-                        int icon=_icon(code,s);
+                        String description= weatherbitDescription(code);
+                        int icon= weatherbitIcon(code,s);
                         HourlyModel hModel = new HourlyModel();
                         hModel.setLocal_time(local_time);
                         hModel.setTemp(temp);
@@ -164,8 +163,8 @@ public class VolleyRequest {
         Volley.newRequestQueue(mContext).add(jsonRequestHourly);
     }
 
-    public void _jsonRequestDaily() {
-        JsonRequest jsonRequestDaily = new JsonObjectRequest(Request.Method.POST, Url.getBaseUrlDayly(), null, new Response.Listener<JSONObject>() {
+    public void weatherbitJsonRequestDaily() {
+        JsonRequest jsonRequestDaily = new JsonObjectRequest(Request.Method.POST, Url.getBaseUrlDaily_weatherBit(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -191,8 +190,8 @@ public class VolleyRequest {
                         int code=jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getInt("code");
                         //String dayOrNight=jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getString("icon");
                         //String s=dayOrNight.substring(dayOrNight.length()-1);
-                        String description=_description(code);
-                        int icon=_icon(code,"d");
+                        String description= weatherbitDescription(code);
+                        int icon= weatherbitIcon(code,"d");
                         DailyModel dModel = new DailyModel();
                         dModel.setDate(pdformater1.format(pdate));
                         dModel.setTemp(temp);
@@ -221,7 +220,7 @@ public class VolleyRequest {
         Volley.newRequestQueue(mContext).add(jsonRequestDaily);
     }
 
-    private String _description(int code) {
+    private String weatherbitDescription(int code) {
         String des=null;
         switch (code) {
             case (200):
@@ -336,7 +335,7 @@ public class VolleyRequest {
         return des;
     }
 
-    private int _icon(int code,String s) {
+    private int weatherbitIcon(int code, String s) {
         int icon=0;
         switch (code) {
                 case (200):
@@ -468,4 +467,8 @@ public class VolleyRequest {
         }
         return icon;
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }

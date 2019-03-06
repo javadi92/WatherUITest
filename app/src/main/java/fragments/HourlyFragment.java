@@ -33,7 +33,7 @@ public class HourlyFragment extends Fragment {
 
         view=inflater.inflate(R.layout.fragment_hourly,container,false);
         recyclerView=(RecyclerView)view.findViewById(R.id.recy_hourly);
-        //new VolleyRequest(getContext())._jsonRequestHourly();
+        //new VolleyRequest(getContext()).weatherbitJsonRequestHourly();
         hourlyAdapter=new HourlyAdapter(getContext(),modelList);
         LinearLayoutManager llm=new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
