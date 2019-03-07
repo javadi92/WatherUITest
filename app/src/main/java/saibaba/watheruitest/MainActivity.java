@@ -33,7 +33,6 @@ import fragments.DailyFragment;
 import fragments.HourlyFragment;
 import fragments.RadarFragment;
 import google.PlaceAutocompleteAdapter;
-import utillities.CheckConnection;
 import utillities.Url;
 import utillities.VolleyRequest;
 
@@ -236,9 +235,9 @@ public class MainActivity extends AppCompatActivity {
                 //Url.setUrlRadar("https://www.windy.com/-Temperature-temp?temp,"+lat+","+lon);
                 if(mAutocompleteView2.getText().toString().length()>0){
                     //new VolleyRequest(MainActivity.this).weatherbitJsonRequestCurrent();
-                    new VolleyRequest(MainActivity.this).darkSkyJsonRequestCurrent();
-                    new VolleyRequest(MainActivity.this).weatherbitJsonRequestHourly();
-                    new VolleyRequest(MainActivity.this).weatherbitJsonRequestDaily();
+                    new VolleyRequest(MainActivity.this).darkSkyJsonRequest();
+                    //new VolleyRequest(MainActivity.this).weatherbitJsonRequestHourly();
+                    //new VolleyRequest(MainActivity.this).weatherbitJsonRequestDaily();
                 }
                 else {
                     Toast.makeText(MainActivity.this,"نام شهر نمیتواند خالی باشد",Toast.LENGTH_LONG).show();

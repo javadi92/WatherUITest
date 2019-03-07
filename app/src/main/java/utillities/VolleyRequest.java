@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -127,7 +128,7 @@ public class VolleyRequest {
                     JSONArray jsonArrayHourly = response.getJSONArray("data");
                     List<HourlyModel> hourlyModel = new ArrayList<>();
                     hourlyModel.clear();
-                    for (int i = 0; i < jsonArrayHourly.length(); i++) {
+                    for (int i = 1; i < jsonArrayHourly.length(); i++) {
                         String local_time_first = jsonArrayHourly.getJSONObject(i).getString("timestamp_local");
                         String local_time = local_time_first.substring(11, local_time_first.length() - 3);
                         String tem = Math.round(jsonArrayHourly.getJSONObject(i).getDouble("temp"))+"";
@@ -140,7 +141,7 @@ public class VolleyRequest {
                         int icon= weatherbitIcon(code,s);
                         HourlyModel hModel = new HourlyModel();
                         hModel.setLocal_time(local_time);
-                        hModel.setTemp(temp);
+                        //hModel.setTemp(temp);
                         hModel.setDescription(description);
                         hModel.setIcon_code(icon);
                         hourlyModel.add(hModel);
@@ -171,13 +172,13 @@ public class VolleyRequest {
                     JSONArray jsonArrayDaily = response.getJSONArray("data");
                     List<DailyModel> dailyModel = new ArrayList<>();
                     //dailyModel.clear();
-                    for (int i = 0; i < jsonArrayDaily.length(); i++) {
+                    for (int i = 1; i < jsonArrayDaily.length(); i++) {
                         //String local_time_first = jsonArrayDaily.getJSONObject(i).getString("timestamp_local");
                         //String local_time = local_time_first.substring(11, local_time_first.length() - 3);
-                        String tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("temp"))+"";
+                        //String tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("temp"))+"";
                         String max_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("max_temp"))+"";
                         String min_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("min_temp"))+"";
-                        int temp=Integer.parseInt(tem);
+                        //int temp=Integer.parseInt(tem);
                         int max_temp=Integer.parseInt(max_tem);
                         int min_temp=Integer.parseInt(min_tem);
                         String dateTime=jsonArrayDaily.getJSONObject(i).getString("datetime");
@@ -194,7 +195,7 @@ public class VolleyRequest {
                         int icon= weatherbitIcon(code,"d");
                         DailyModel dModel = new DailyModel();
                         dModel.setDate(pdformater1.format(pdate));
-                        dModel.setTemp(temp);
+                        //dModel.setTemp(temp);
                         dModel.setMax_temp(max_temp);
                         dModel.setMin_temp(min_temp);
                         dModel.setIcon_code(icon);
@@ -469,60 +470,59 @@ public class VolleyRequest {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void darkSkyDescription(String icon){
+    private HashMap<String,Integer> darkSkyDescription(String icon){
+        HashMap<String,Integer> hashMap=new HashMap<String,Integer>();
         String des=null;
         switch (icon){
             case ("clear-day"):
-                CurrentFragment.tvCondition.setText("صاف");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.clear_day);
+                hashMap.put("صاف",R.drawable.clear_day);
                 break;
             case ("clear-night"):
-                CurrentFragment.tvCondition.setText("صاف");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.clear_night);
+                hashMap.put("صاف",R.drawable.clear_night);
                 break;
             case ("rain"):
-                CurrentFragment.tvCondition.setText("بارانی");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.rain);
+                hashMap.put("بارانی",R.drawable.rain);
                 break;
             case ("snow"):
-                CurrentFragment.tvCondition.setText("برفی");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.snow);
+                hashMap.put("برفی",R.drawable.snow);
                 break;
             case ("sleet"):
-                CurrentFragment.tvCondition.setText("باران و برف");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.snow_rain);
+                hashMap.put("باران و برف",R.drawable.snow_rain);
                 break;
             case ("wind"):
-                CurrentFragment.tvCondition.setText("باد");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.smoke);
+                hashMap.put("باد",R.drawable.smoke);
                 break;
             case ("fog"):
-                CurrentFragment.tvCondition.setText("مه");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.fog);
+                hashMap.put("مه",R.drawable.fog);
                 break;
             case ("cloudy"):
-                CurrentFragment.tvCondition.setText("ابری");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.cloud);
+                hashMap.put("ابری",R.drawable.cloud);
                 break;
             case ("partly-cloudy-day"):
-                CurrentFragment.tvCondition.setText("صاف تا قسمتی ابری");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.scatter_cloud_day);
+                hashMap.put("صاف تا قسمتی ابری",R.drawable.scatter_cloud_day);
                 break;
             case ("partly-cloudy-night"):
-                CurrentFragment.tvCondition.setText("صاف تا قسمتی ابری");
-                CurrentFragment.imgWeatherState.setImageResource(R.drawable.scatter_cloud_night);
+                hashMap.put("صاف تا قسمتی ابری",R.drawable.scatter_cloud_night);
                 break;
         }
+        return hashMap;
     }
 
-    public void darkSkyJsonRequestCurrent(){
+    public void darkSkyJsonRequest(){
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, Url.getBaaseUrlCurrent_darkSky(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject jsonObject=response.getJSONObject("currently");
                     String icon=jsonObject.getString("icon");
+                    for(String key:darkSkyDescription(icon).keySet()){
+                        CurrentFragment.tvCondition.setText(key);
+                        CurrentFragment.imgWeatherState.setImageResource(darkSkyDescription(icon).get(key));
+                    }
                     darkSkyDescription(icon);
                     int uvIndex=jsonObject.getInt("uvIndex");
                     double uv=uvIndex;
@@ -545,15 +545,15 @@ public class VolleyRequest {
                         CurrentFragment.tvUV.setText(" بسیار شدید");
                     }
                     double temperature=jsonObject.getDouble("temperature");
-                    CurrentFragment.tvTemprature.setText(temperature+"");
-                    double visibility=jsonObject.getDouble("visibility")*1000;
-                    CurrentFragment.tvVisibility.setText(visibility+"");
+                    CurrentFragment.tvTemprature.setText(Math.round(temperature)+"");
+                    double visibility=jsonObject.getDouble("visibility");
+                    CurrentFragment.tvVisibility.setText(Math.round(visibility)+" Km");
                     double windSpeed=jsonObject.getDouble("windSpeed");
-                    CurrentFragment.tvWindSpeed.setText(windSpeed+" km/h");
+                    CurrentFragment.tvWindSpeed.setText(Math.round(windSpeed)+" km/h");
                     double cloudCover=jsonObject.getDouble("cloudCover");
-                    CurrentFragment.tvCloudsPercent.setText(cloudCover*100+" %");
+                    CurrentFragment.tvCloudsPercent.setText(Math.round(cloudCover*100)+" %");
                     double apparentTemperature=jsonObject.getDouble("apparentTemperature");
-                    CurrentFragment.tvApparanetTemprature.setText(apparentTemperature+"");
+                    CurrentFragment.tvApparanetTemprature.setText(Math.round(apparentTemperature)+"");
                     double humidity=jsonObject.getDouble("humidity");
                     CurrentFragment.tvprecipRate.setText(Math.round(humidity*100)+" %");
                     long sunriseTime=response.getJSONObject("daily").getJSONArray("data").getJSONObject(0).getInt("sunriseTime");
@@ -561,19 +561,80 @@ public class VolleyRequest {
                     Date date = new Date(Long.valueOf(sunriseTime*1000L));
                     Date date2 = new Date(Long.valueOf(sunsetTime*1000L));
                     SimpleDateFormat myDate = new SimpleDateFormat("HH:mm");
-                    myDate.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
+                    myDate.setTimeZone(TimeZone.getTimeZone(response.getString("timezone")));
                     String formatted = myDate.format(date);
                     String formatted2 = myDate.format(date2);
                     CurrentFragment.tvSunrise.setText(formatted);
                     CurrentFragment.tvSunset.setText(formatted2);
+                    /////////////////////////////////////////////
+                    /////////////////////////////////////////////
+
+                    JSONArray jsonArrayHourly=response.getJSONObject("hourly").getJSONArray("data");
+                    List<HourlyModel> hourlyModel = new ArrayList<>();
+                    hourlyModel.clear();
+                    for (int i = 1; i < jsonArrayHourly.length(); i++) {
+                        long local_time=jsonArrayHourly.getJSONObject(i).getLong("time")*1000L ;
+                        Date date3 = new Date(local_time);
+                        SimpleDateFormat myDate2 = new SimpleDateFormat("HH:mm");
+                        myDate2.setTimeZone(TimeZone.getTimeZone(response.getString("timezone")));
+                        String formatted3 = myDate2.format(date3);
+                        double tem = Math.round(jsonArrayHourly.getJSONObject(i).getDouble("temperature"));
+                        int temp= (int) Math.round(tem);
+                        //String description = jsonArrayHourly.getJSONObject(i).getJSONObject("weather").getString("description");
+                        icon=jsonArrayHourly.getJSONObject(i).getString("icon") ;
+                        HourlyModel hModel = new HourlyModel();
+                        hModel.setLocal_time(formatted3);
+                        hModel.setTemp(temp);
+                        for(String key:darkSkyDescription(icon).keySet()){
+                            hModel.setDescription(key);
+                            hModel.setIcon_code(darkSkyDescription(icon).get(key));
+                        }
+                        hourlyModel.add(hModel);
+                    }
+                    HourlyFragment.modelList = hourlyModel;
+                    HourlyFragment.hourlyAdapter = new HourlyAdapter(mContext, hourlyModel);
+                    HourlyFragment.recyclerView.setAdapter(HourlyFragment.hourlyAdapter);
+                    /////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////////////
+
+                    JSONArray jsonArrayDaily=response.getJSONObject("daily").getJSONArray("data");
+                    List<DailyModel> dailyModel = new ArrayList<>();
+                    //dailyModel.clear();
+                    for (int i = 1; i < jsonArrayDaily.length(); i++) {
+                        double max_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("temperatureMax"));
+                        double min_tem = Math.round(jsonArrayDaily.getJSONObject(i).getDouble("temperatureMin"));
+                        int max_temp=(int)max_tem;
+                        int min_temp=(int)min_tem;
+                        long dateTime=jsonArrayDaily.getJSONObject(i).getLong("time")*1000L;
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        date = dateFormat.parse(String.valueOf(dateTime));
+                        PersianDate pdate = new PersianDate(date);
+                        PersianDateFormat pdformater1 = new PersianDateFormat("Y/m/d");
+                        //String description = jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getString("description");
+                        String ico=jsonArrayDaily.getJSONObject(i).getString("icon");
+                        //String dayOrNight=jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getString("icon");
+                        //String s=dayOrNight.substring(dayOrNight.length()-1);
+                        DailyModel dModel = new DailyModel();
+                        dModel.setDate(pdformater1.format(pdate));
+                        dModel.setMax_temp(max_temp);
+                        dModel.setMin_temp(min_temp);
+                        for(String key:darkSkyDescription(ico).keySet()){
+                            dModel.setIcon_code(darkSkyDescription(ico).get(key));
+                        }
+                        dailyModel.add(dModel);
+                    }
+                    DailyFragment.dailyModels=dailyModel;
+                    DailyFragment.dailyAdapter = new DailyAdapter(dailyModel, mContext);
+                    DailyFragment.recyclerView.setAdapter(DailyFragment.dailyAdapter);
 
                     progressDialog.dismiss();
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("errordark",e.getMessage());
                     progressDialog.dismiss();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {

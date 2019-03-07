@@ -32,7 +32,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.myViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder myViewHolder, int i) {
-        myViewHolder.tvTemp.setText(dailyModels.get(i).getTemp()+"");
+        //myViewHolder.tvTemp.setText(dailyModels.get(i).getTemp()+"");
         myViewHolder.tvMaxTemp.setText(dailyModels.get(i).getMax_temp()+"");
         myViewHolder.tvMinTemp.setText(dailyModels.get(i).getMin_temp()+"");
         myViewHolder.tvDate.setText(dailyModels.get(i).getDate());
@@ -47,7 +47,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.myViewHolder
 
     public class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvTemp;
+        //TextView tvTemp;
         TextView tvMaxTemp;
         TextView tvMinTemp;
         TextView tvDate;
@@ -55,7 +55,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.myViewHolder
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTemp=(TextView)itemView.findViewById(R.id.tv_temp);
+            //tvTemp=(TextView)itemView.findViewById(R.id.tv_temp);
             tvMaxTemp=(TextView)itemView.findViewById(R.id.tv_max_temp);
             tvMinTemp=(TextView)itemView.findViewById(R.id.tv_min_temp);
             tvDate=(TextView)itemView.findViewById(R.id.tv_date);

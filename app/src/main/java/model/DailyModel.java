@@ -3,7 +3,7 @@ package model;
 public class DailyModel {
 
     private String date;
-    private int temp;
+    //private int temp;
     private int max_temp;
     private int min_temp;
     private String description;
@@ -17,13 +17,13 @@ public class DailyModel {
         this.date = date;
     }
 
-    public int getTemp() {
-        return temp;
-    }
+    //public int getTemp() {
+        //return temp;
+    //}
 
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
+    //public void setTemp(int temp) {
+        //this.temp = temp;
+    //}
 
     public int getMax_temp() {
         return max_temp;
