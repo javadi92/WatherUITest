@@ -614,7 +614,7 @@ public class VolleyRequest {
                         int min_temp=(int)min_tem;
                         long dateTime=jsonArrayDaily.getJSONObject(i).getLong("time")*1000L;
                         PersianDate pdate = new PersianDate(dateTime);
-                        PersianDateFormat pdformater1 = new PersianDateFormat("Y/m/d");
+                        PersianDateFormat pdformater1 = new PersianDateFormat("l Y/m/d");
                         //String description = jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getString("description");
                         String ico=jsonArrayDaily.getJSONObject(i).getString("icon");
                         //String dayOrNight=jsonArrayDaily.getJSONObject(i).getJSONObject("weather").getString("icon");
