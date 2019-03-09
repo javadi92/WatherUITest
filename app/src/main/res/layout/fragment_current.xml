@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f2f2">
+    android:background="#352f2f">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -579,7 +579,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/textColor"
+            android:textColor="#b5f110"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_condition"
@@ -595,7 +595,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/textColor"
+            android:textColor="#b5f110"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
